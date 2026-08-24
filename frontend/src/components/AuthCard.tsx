@@ -107,8 +107,6 @@ export default function AuthCard({ role }: AuthCardProps) {
   const inputClasses =
     "h-12 rounded-xl border border-slate-200 bg-slate-50/60 pl-10 text-[15px] text-slate-900 shadow-sm transition-all duration-250 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 focus:bg-white dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:bg-slate-800 dark:focus:ring-sky-500/20";
 
-  const formKey = `${role}-${mode}`;
-
   return (
     <div className="card w-full max-w-175 overflow-hidden shadow-xl shadow-slate-200/40 dark:shadow-slate-950/30">
       <div className="flex flex-col md:flex-row">
@@ -144,28 +142,23 @@ export default function AuthCard({ role }: AuthCardProps) {
         {/* Right panel — form */}
         <div className="flex-1 p-8 md:p-10">
           {/* Toggle */}
-          <div className="relative mb-8 flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
+          <div className="mb-8 grid grid-cols-2 rounded-xl bg-slate-100 p-1 dark:bg-slate-800" role="tablist" aria-label="Authentication mode">
             {(["login", "signup"] as const).map((opt) => (
               <button
                 key={opt}
                 type="button"
+                role="tab"
+                aria-selected={mode === opt}
                 onClick={() => handleModeChange(opt)}
-                className={`relative z-10 flex-1 rounded-lg py-2.5 text-[14px] font-semibold transition-colors duration-200 ${
+                className={`rounded-lg py-2.5 text-[14px] font-semibold transition-colors duration-200 ${
                   mode === opt
-                    ? "text-sky-700 dark:text-white"
+                    ? "bg-white text-sky-700 shadow-sm ring-1 ring-slate-200/50 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
                     : "text-slate-500 hover:text-slate-700 dark:text-white/85 dark:hover:text-white"
                 }`}
               >
                 {opt === "login" ? "Login" : "Sign Up"}
               </button>
             ))}
-            <div
-              className="absolute inset-y-1 z-0 rounded-lg bg-white shadow-sm ring-1 ring-slate-200/50 dark:bg-slate-700 dark:ring-slate-600"
-              style={{
-                width: "calc(50% - 4px)",
-                left: mode === "login" ? "4px" : "calc(50%)",
-              }}
-            />
           </div>
 
           {/* Form */}
