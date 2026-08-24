@@ -12,10 +12,13 @@ type Role = "patient" | "doctor";
 
 export default async function AuthRolePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ role: string }>;
+  searchParams: Promise<{ mode?: string }>;
 }) {
   const { role } = await params;
+  const { mode } = await searchParams;
 
   if (role !== "patient" && role !== "doctor") {
     notFound();
@@ -38,7 +41,10 @@ export default async function AuthRolePage({
         </div>
 
         <div className="w-full flex justify-center">
-          <AuthCard role={role as Role} />
+          <AuthCard
+            role={role as Role}
+            initialMode={mode === "signup" ? "signup" : "login"}
+          />
         </div>
       </section>
 

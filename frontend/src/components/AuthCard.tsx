@@ -24,12 +24,13 @@ type Role = "patient" | "doctor";
 
 interface AuthCardProps {
   role: Role;
+  initialMode?: AuthMode;
 }
 
-export default function AuthCard({ role }: AuthCardProps) {
+export default function AuthCard({ role, initialMode = "login" }: AuthCardProps) {
   const router = useRouter();
   const auth = useAuth();
-  const [mode, setMode] = useState<AuthMode>("login");
+  const [mode, setMode] = useState<AuthMode>(initialMode);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
@@ -96,14 +97,6 @@ export default function AuthCard({ role }: AuthCardProps) {
     }
   };
 
-  const handleModeChange = (m: AuthMode) => {
-    setMode(m);
-    setError("");
-    setSuccessMsg("");
-    setShowPassword(false);
-    setShowConfirm(false);
-  };
-
   const inputClasses =
     "h-12 rounded-xl border border-slate-200 bg-slate-50/60 pl-10 text-[15px] text-slate-900 shadow-sm transition-all duration-250 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 focus:bg-white dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:bg-slate-800 dark:focus:ring-sky-500/20";
 
@@ -144,12 +137,11 @@ export default function AuthCard({ role }: AuthCardProps) {
           {/* Toggle */}
           <div className="mb-8 grid grid-cols-2 rounded-xl bg-slate-100 p-1 dark:bg-slate-800" role="tablist" aria-label="Authentication mode">
             {(["login", "signup"] as const).map((opt) => (
-              <button
+              <a
                 key={opt}
-                type="button"
                 role="tab"
                 aria-selected={mode === opt}
-                onClick={() => handleModeChange(opt)}
+                href={`/auth/${role}${opt === "signup" ? "?mode=signup" : ""}`}
                 className={`rounded-lg py-2.5 text-[14px] font-semibold transition-colors duration-200 ${
                   mode === opt
                     ? "bg-white text-sky-700 shadow-sm ring-1 ring-slate-200/50 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
@@ -157,7 +149,7 @@ export default function AuthCard({ role }: AuthCardProps) {
                 }`}
               >
                 {opt === "login" ? "Login" : "Sign Up"}
-              </button>
+              </a>
             ))}
           </div>
 
