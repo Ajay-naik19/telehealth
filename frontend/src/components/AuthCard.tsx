@@ -142,7 +142,7 @@ export default function AuthCard({ role, initialMode = "login" }: AuthCardProps)
                 role="tab"
                 aria-selected={mode === opt}
                 href={`/auth/${role}${opt === "signup" ? "?mode=signup" : ""}`}
-                className={`rounded-lg py-2.5 text-[14px] font-semibold transition-colors duration-200 ${
+                className={`flex items-center justify-center rounded-lg py-2.5 text-[14px] font-semibold transition-colors duration-200 ${
                   mode === opt
                     ? "bg-white text-sky-700 shadow-sm ring-1 ring-slate-200/50 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
                     : "text-slate-500 hover:text-slate-700 dark:text-white/85 dark:hover:text-white"
@@ -154,7 +154,7 @@ export default function AuthCard({ role, initialMode = "login" }: AuthCardProps)
           </div>
 
           {/* Form */}
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form className="space-y-4" method="post" onSubmit={handleSubmit}>
               {/* Phone */}
               <div>
                 <Label htmlFor="phone" className="text-[12px] font-bold text-slate-500 dark:text-white">
